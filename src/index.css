@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.drawer-side a.active {
+    color: bisque;
+    background-color: #D1A054;
+}
+
+.drawer-side a {
+    background: transparent;
+}
