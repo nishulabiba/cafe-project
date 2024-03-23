@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import Title from "../../Shared/Title/Title";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -11,15 +11,11 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
+import useReview from "../../../hooks/useReview";
 
 
 const Testimonials = () => {
-    const [reviews, setReviews] = useState([])
-    useEffect(()=>{
-        fetch("https://cafe-server-wmpu.vercel.app/reviews")
-        .then(res=> res.json())
-        .then(data=> setReviews(data))
-    },[])
+    const reviews = useReview()
     return ( 
         <section className="my-20"> 
             <Title heading={"Testimonials"}

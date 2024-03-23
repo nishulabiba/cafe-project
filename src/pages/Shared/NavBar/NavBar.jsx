@@ -6,9 +6,12 @@ import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import useCart from "../../../hooks/useCart";
+import useAdmin from "../../../hooks/useAdmin";
 
 
 const NavBar = () => { 
+    const [isAdmin] = useAdmin()
+    const { admin } = isAdmin;
     const {user, logOut} = useContext(AuthContext)
     const [refetch, cart, isLoading] = useCart()
     const handleLogOut=()=>{
@@ -28,7 +31,13 @@ const NavBar = () => {
                 
                 <li className="hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0"><Link to="/order/salads">Order Food</Link></li>
                 {
-                    user? <><li className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0" onClick={handleLogOut}>Log Out</li></> : <li className="hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0"><Link to="/login">Login</Link></li>
+                    user? <>
+                    {
+                        admin? <Link to="/dashboard/adminhome" className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0" >Dashboard</Link>: <Link to="dashboard/userhome" className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0">Dashboard</Link>
+                         
+                    }
+                    
+                    <li className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0" onClick={handleLogOut}>Log Out</li></> : <li className="hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0"><Link to="/login">Login</Link></li>
                 }
                 
                 </>

@@ -60,7 +60,6 @@ const AuthProvider = ({ children }) => {
             if (currentUser) {
                 axios.post('https://cafe-server-wmpu.vercel.app/jwt', { email: currentUser.email })
                     .then(data => {
-                        console.log(data.data);
                         localStorage.setItem('access_token', data.data.token)
 
                     })

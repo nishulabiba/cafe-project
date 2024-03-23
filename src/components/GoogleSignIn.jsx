@@ -5,15 +5,19 @@ import { useContext } from 'react';
 import { AuthContext } from '../provider/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
+import { app } from '../firebase/firebase.config';
 
 
 const GoogleSignIn = () => {
+    const gProvider = new GoogleAuthProvider();
+    const auth = getAuth(app)
     const { googleSignIn, facebookSignIn } = useContext(AuthContext)
     const navigate = useNavigate();
     const location = useLocation()
     const from = location.state?.from?.pathname || "/"
     const handleGoogleSignIn = () => {
-        googleSignIn()
+        signInWithPopup(auth , gProvider)
             .then((result) => {
                 // The signed-in user info.
                 const user = result.user;
@@ -21,7 +25,7 @@ const GoogleSignIn = () => {
                 // IdP data available using getAdditionalUserInfo(result)
                 if (user) {
                     const savedUser = { name: user.displayName, email: user.email }
-                    fetch("https://cafe-server-wmpu.vercel.app//users", {
+                    fetch("https://cafe-server-wmpu.vercel.app/users", {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

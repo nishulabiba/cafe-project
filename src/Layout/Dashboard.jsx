@@ -7,6 +7,7 @@ import useCart from "../hooks/useCart";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
 import useAdmin from "../hooks/useAdmin";
+import { faSquareLetterboxd } from "@fortawesome/free-brands-svg-icons";
 
 
 const Dashboard = () => {
@@ -56,6 +57,7 @@ const Dashboard = () => {
                 <li><NavLink className="" to="/dashboard/payment-history"> <FontAwesomeIcon icon={faWallet} />Payment History</NavLink></li>
                 <li><NavLink className="" to="/dashboard/mycart"> <FontAwesomeIcon icon={faShoppingCart} />My Cart <span className="badge badge-secondary">+{cart?.length || 0}</span></NavLink></li>
                 <li><NavLink className="" to="/dashboard/reservations"> <FontAwesomeIcon icon={faCalendar} />Reservations</NavLink></li>
+                <li><NavLink className="" to="/dashboard/review"> <FontAwesomeIcon icon={faSquareLetterboxd} />Give Review</NavLink></li>
               </>
           }
 

@@ -20,6 +20,7 @@ import UpdateItem from "../pages/Dashboard/ManageItems/UpdateItem/UpdateItem";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import UserHome from "../pages/Dashboard/UserHome/UserHome";
 import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
+import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
   
   
   export const router = createBrowserRouter([
@@ -70,6 +71,9 @@ import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
         {
           path: "mycart/payment",
           element: <Payment/>
+        },{
+          path: "payment-history",
+          element: <PaymentHistory/>
         },
         ///admin routes
         {

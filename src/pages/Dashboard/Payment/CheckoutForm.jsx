@@ -1,12 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CardElement, useElements, useStripe, } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import './Checkout.css'
+import useCart from "../../../hooks/useCart";
 
 
 const CheckoutForm = ({ price, cart }) => {
     const { user } = useAuth()
+    const [refetch] = useCart()
     const stripe = useStripe()
     const elements = useElements();
     const [err, setErr] = useState('')
@@ -17,7 +20,7 @@ const CheckoutForm = ({ price, cart }) => {
 
     useEffect(() => {
 
-        if(price>0){
+        if (price > 0) {
             const fetchFunc = async () => {
                 try {
                     if (price) {
@@ -31,7 +34,7 @@ const CheckoutForm = ({ price, cart }) => {
                                 price
                             }),
                         });
-    
+
                         const result = await response.json();
                         setClientSecret(result.clientSecret);
                     }
@@ -39,7 +42,7 @@ const CheckoutForm = ({ price, cart }) => {
                     console.error('Error posting data:', error);
                 }
             };
-    
+
             fetchFunc();
         }
 
@@ -122,14 +125,24 @@ const CheckoutForm = ({ price, cart }) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    if (data.paymentResult.insertedId )
-
-
-
+                    if (data.paymentResult.insertedId) {
+                      fetch(`https://cafe-server-wmpu.vercel.app/carts/${user?.email}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // You might need to include additional headers if required by your API
+                            }
+                        })
+                            .then(res=> res.json())
+                            .then(data=> {
+                                refetch()
+                                console.log(data);
+                            })
                         Swal.fire({
                             icon: 'success',
                             title: 'Your transaction process has been completed'
                         })
+                    }
                 })
 
         }
