@@ -9,7 +9,7 @@ const UpdateItem = () => {
     const {id} = useParams() 
 
     const {refetch,  data: data = [] } = useQuery({
-        queryKey: [id],
+        queryKey: ["id", id],
         queryFn: async () => {
             const res = await fetch(`https://cafe-server-wmpu.vercel.app/menu/${id}`)
             return res.json();

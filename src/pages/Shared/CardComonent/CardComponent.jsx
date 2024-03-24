@@ -13,8 +13,7 @@ const CardComponent = ({item}) => {
     const location = useLocation()
     const  {name, _id, image, price} = item;
     const {user} = useContext(AuthContext)
-    const handleCart = (item)=>{
-        console.log(item);
+    const handleCart = ()=>{
         if(user && user.email){
             const cartItem = {foodId: _id, name, price, image, email: user.email } 
             fetch("https://cafe-server-wmpu.vercel.app/carts", {

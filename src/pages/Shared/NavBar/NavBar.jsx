@@ -10,8 +10,7 @@ import useAdmin from "../../../hooks/useAdmin";
 
 
 const NavBar = () => { 
-    const [isAdmin] = useAdmin()
-    const { admin } = isAdmin;
+    const {isAdmin} = useAdmin()
     const {user, logOut} = useContext(AuthContext)
     const [refetch, cart, isLoading] = useCart()
     const handleLogOut=()=>{
@@ -33,7 +32,7 @@ const NavBar = () => {
                 {
                     user? <>
                     {
-                        admin? <Link to="/dashboard/adminhome" className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0" >Dashboard</Link>: <Link to="dashboard/userhome" className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0">Dashboard</Link>
+                        isAdmin? <></>: <Link to="dashboard/userhome" className="p-2 hover:bg-slate-700 hover:text-yellow-500 hover:rounded-2xl bg-transparent border-0">Dashboard</Link>
                          
                     }
                     
@@ -60,7 +59,9 @@ const NavBar = () => {
             </ul>
         </div>
         <div className="navbar-end">
-        <Link to="/dashboard/mycart" className="btn"><FontAwesomeIcon icon={faShoppingCart}/><div className="badge badge-secondary">+{cart?.length || 0}</div></Link>
+        {
+            isAdmin? <Link to="/dashboard/adminhome" className="p-2 text-slate-400 py-3 hover:bg-slate-700 bg-black hover:text-yellow-500 hover:rounded-2xl rounded-lg border-0" >Dashboard</Link> : <Link to="/dashboard/mycart" className="btn"><FontAwesomeIcon icon={faShoppingCart}/><div className="badge badge-secondary">+{cart?.length || 0}</div></Link>
+        }
            
         </div>
         </div>

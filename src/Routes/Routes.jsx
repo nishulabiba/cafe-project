@@ -21,6 +21,9 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import UserHome from "../pages/Dashboard/UserHome/UserHome";
 import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import Reservation from "../pages/Dashboard/Reservation/Reservation";
+import MyBookings from "../pages/Dashboard/MyBookings/MyBookings";
+import AddReview from "../pages/Dashboard/AddReview/AddReview";
   
   
   export const router = createBrowserRouter([
@@ -75,7 +78,25 @@ import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
           path: "payment-history",
           element: <PaymentHistory/>
         },
-        ///admin routes
+        {
+          path: "reservation",
+          element: <Reservation/>
+        },
+        {
+          path: "mybookings",
+          element: <MyBookings/>
+        },
+        
+        {
+          path: "mybookings/payment",
+          element: <Payment/>
+        },
+        
+        {
+          path: "addreview",
+          element: <AddReview/>
+        },
+        //Admin routes
         {
           path: "adminhome",
           element: <AdminRoute>

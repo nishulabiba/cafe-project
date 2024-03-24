@@ -6,6 +6,9 @@ import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import useReview from "../../../hooks/useReview";
 import usePayment from "../../../hooks/usePayment";
 import useCart from "../../../hooks/useCart";
+import { Helmet } from "react-helmet-async";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 
 const UserHome = () => {
@@ -14,6 +17,14 @@ const UserHome = () => {
     const reviews = useReview()
     const {payments} = usePayment()
     const [, cart] = useCart()
+    const axiosSecure = useAxiosSecure()
+    const { data: bookings = [], } = useQuery({
+        queryKey: ["bookings"],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/reservations?email=${user?.email}`)
+            return res.data;
+        }
+    })
 
     const payment = payments.reduce((count, item) => {
         if (item.email === user?.email) {
@@ -51,8 +62,9 @@ const UserHome = () => {
     console.log(emailItemTotal);
     return (
         <div className=" flex flex-col justify-center items-center">
+            <Helmet title="Dashboard | Home"/>
             <Title heading={"Welcome"} subHeading={"Hi"} />
-            <div className="stats shadow bg-opacity-60 w-[800px]">
+            <div className="stats shadow bg-opacity-60 w-[700px]">
 
                 <div className="stat ">
                     <div className="stat-figure text-secondary">
@@ -87,10 +99,10 @@ const UserHome = () => {
                             <h1 className="text-3xl font-serif">{user?.displayName}</h1>
                         </div>
                         <div className="w-[2px] h-[200px] mx-40 bg-black bg-opacity-30"></div>
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-3 text-lg font-semibold">
                             <h1 className=" text-blue-500"> <FontAwesomeIcon icon={faCartShopping} /> Orders: {emailItemTotal } </h1>
                             <h1 className=" text-teal-500"> <FontAwesomeIcon icon={faStar} /> Reviews: {review} </h1>
-                            <h1 className=" text-orange-400"> <FontAwesomeIcon icon={faCalendar} /> Bookings: loading... </h1>
+                            <h1 className=" text-orange-400"> <FontAwesomeIcon icon={faCalendar} /> Bookings: {bookings.length}</h1>
                             <h1 className=" text-red-500"> <FontAwesomeIcon icon={faWallet} /> Payment: {payment} </h1>
                         </div>
                     </div>

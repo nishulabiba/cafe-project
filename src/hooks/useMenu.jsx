@@ -1,39 +1,42 @@
-/* eslint-disable no-unexpected-multiline */
-
-
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-
-
 const useMenu = () => {
-    const [salads, setSalads] = useState([])
-    const [soups, setSoups] = useState([])
-    const [offers, setOffers] = useState([])
-    const [popular, setPopular] = useState([])
-    const [pizzas, setPizzas] = useState([])
+    const [menuData, setMenuData] = useState({
+        salads: [],
+        soups: [],
+        offers: [],
+        popular: [],
+        pizzas: []
+    });
+
     const { data: menu = [], refetch, isLoading } = useQuery({
-        queryKey: "menu",
+        queryKey: ["menu"],
         queryFn: async () => {
-            const res = await fetch(`https://cafe-server-wmpu.vercel.app/menu`)
+            const res = await fetch(`https://cafe-server-wmpu.vercel.app/menu`);
             return res.json();
         }
-    })
+    });
 
-    useEffect
-        (() => {
-            const salads = menu?.filter(item => item.category === "salad")
-            setSalads(salads)
-            const soups = menu?.filter(item => item.category === "soup")
-            setSoups(soups)
-            const pizzas = menu?.filter(item => item.category === "pizza")
-            setPizzas(pizzas)
-            const offers = menu?.filter(item => item.category === "offered")
-            setOffers(offers)
-            const popular = menu?.filter(item => item.category === "popular")
-            setPopular(popular)
-        }, [menu])
-    return [menu, refetch, isLoading, offers, pizzas, salads, soups, popular,];
+    useEffect(() => {
+        if (menu && menu.length > 0) {
+            const groupedMenu = menu.reduce((acc, item) => {
+                acc[item.category] = [...(acc[item.category] || []), item];
+                return acc;
+            }, {});
+
+            setMenuData(prevState => ({
+                ...prevState,
+                salads: groupedMenu["salad"] || [],
+                soups: groupedMenu["soup"] || [],
+                pizzas: groupedMenu["pizza"] || [],
+                offers: groupedMenu["offered"] || [],
+                popular: groupedMenu["popular"] || []
+            }));
+        }
+    }, [menu]);
+
+    return [menu, refetch, isLoading, menuData.offers, menuData.pizzas, menuData.salads, menuData.soups, menuData.popular];
 };
 
 export default useMenu;
